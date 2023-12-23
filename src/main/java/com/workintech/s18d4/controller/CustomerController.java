@@ -2,9 +2,11 @@ package com.workintech.s18d4.controller;
 
 import com.workintech.s18d4.dto.CustomerResponse;
 import com.workintech.s18d4.entity.Customer;
+import com.workintech.s18d4.exceptions.CustomerException;
 import com.workintech.s18d4.service.CustomerService;
 import com.workintech.s18d4.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,7 @@ public class CustomerController {
             customer.setId(id);
             return Converter.findCustomer(customerService.saveCustomer(foundCustomer));
         }
-        //TODO [Ahmet] throw exception
-        return null;
+        throw new CustomerException("The customer not found.", HttpStatus.NOT_FOUND);
     }
     @DeleteMapping("/{id}")
     public CustomerResponse deleteCustomer(@PathVariable long id){

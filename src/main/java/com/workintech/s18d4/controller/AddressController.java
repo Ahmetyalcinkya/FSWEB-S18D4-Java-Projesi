@@ -2,9 +2,11 @@ package com.workintech.s18d4.controller;
 
 import com.workintech.s18d4.dto.AddressResponse;
 import com.workintech.s18d4.entity.Address;
+import com.workintech.s18d4.exceptions.CustomerException;
 import com.workintech.s18d4.service.AddressService;
 import com.workintech.s18d4.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,8 +41,8 @@ public class AddressController {
             address.setId(id);
             return Converter.findAddress(addressService.saveAddress(foundAddress));
         }
-        //TODO [Ahmet] throw exception
-        return null;
+
+        throw new CustomerException("The address not found.", HttpStatus.NOT_FOUND);
     }
     @DeleteMapping("/{id}")
     public AddressResponse deleteAddress(@PathVariable long id){

@@ -1,8 +1,10 @@
 package com.workintech.s18d4.service;
 
 import com.workintech.s18d4.entity.Account;
+import com.workintech.s18d4.exceptions.CustomerException;
 import com.workintech.s18d4.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +31,7 @@ public class AccountServiceImpl implements AccountService {
         if(accountOptional.isPresent()){
             return accountOptional.get();
         }
-        //TODO [Ahmet] throw exception
-        return null;
+        throw new CustomerException("The account not found.", HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -45,7 +46,6 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.delete(account);
             return account;
         }
-        //TODO [Ahmet] throw exception
-        return null;
+        throw new CustomerException("The account not found.", HttpStatus.NOT_FOUND);
     }
 }

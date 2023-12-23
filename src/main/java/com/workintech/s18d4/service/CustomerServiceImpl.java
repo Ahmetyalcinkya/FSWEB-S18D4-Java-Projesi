@@ -1,8 +1,10 @@
 package com.workintech.s18d4.service;
 
 import com.workintech.s18d4.entity.Customer;
+import com.workintech.s18d4.exceptions.CustomerException;
 import com.workintech.s18d4.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(optionalCustomer.isPresent()){
             return optionalCustomer.get();
         }
-        //TODO [Ahmet] throw exception
-        return null;
+        throw new CustomerException("The customer not found.", HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -45,7 +46,6 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.delete(customer);
             return customer;
         }
-        //TODO [Ahmet] throw exception
-        return null;
+        throw new CustomerException("The customer not found.", HttpStatus.NOT_FOUND);
     }
 }
